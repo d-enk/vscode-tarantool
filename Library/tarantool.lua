@@ -60,8 +60,8 @@ function table.deepcopy(t) end
 ---@param t table
 function table.clear(t) end
 
----@type ffi.cdata*
-box.NULL = {}
+---@type nil
+box.NULL = nil
 
 ---Parse and execute an arbitrary chunk of Lua code. This function is mainly useful to define and run Lua code without having to introduce changes to the global Lua environment.
 ---@param lua_chunk_string string Lua code
