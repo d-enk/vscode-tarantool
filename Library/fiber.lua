@@ -80,7 +80,9 @@ function fiber.id() end
 function fiber.top() end
 
 ---Cancel a fiber
-function fiber.kill() end
+---@param fiber_object Fiber
+---@overload fun(fiber_id: integer)
+function fiber.kill(fiber_object) end
 
 ---Check if the current fiber has been cancelled
 function fiber.testcancel() end
@@ -129,6 +131,9 @@ function fiber_object:status() end
 
 ---Cancel a fiber
 function fiber_object:cancel() end
+
+---Wakeup a fiber
+function fiber_object:wakeup() end
 
 ---returns csw of the fiber
 ---@return number
