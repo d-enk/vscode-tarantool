@@ -5,6 +5,18 @@
 ---@class log: table
 local log = {}
 
+---@class logCfg
+---@field level? log_level
+---@field log? string
+---@field log_nonblock? boolean
+---@field too_long_threshold? number
+---@field log_format? log_format
+---@field logmodules? table
+
+--
+---@param opts? logCfg
+function log.cfg(opts) end
+
 ---
 ---@param s any
 ---@param ... any
