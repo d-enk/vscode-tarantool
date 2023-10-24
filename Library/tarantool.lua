@@ -1,8 +1,8 @@
 ---@meta
 --luacheck: ignore
 
----@alias integer64 ffi.cdata*
----@alias float64 ffi.cdata*
+---@alias integer64 int64_t
+---@alias float64 ffi.cdata*|number
 
 ---@alias scalar
 ---| nil # box.NULL or Lua nil
@@ -69,7 +69,7 @@ box.NULL = {}
 ---@return any ... whatever is returned by the Lua code chunk.
 function dostring(lua_chunk_string, ...) end
 
----@class int64_t: ffi.cdata*
+---@class int64_t: ffi.cdata*, integer
 ---@operator add(int64_t|number): int64_t
 ---@operator sub(int64_t|number): int64_t
 ---@operator mul(int64_t|number): int64_t
@@ -78,7 +78,7 @@ function dostring(lua_chunk_string, ...) end
 ---@operator mod(int64_t|number): int64_t
 ---@operator pow(int64_t|number): int64_t
 
----@class uint64_t: ffi.cdata*
+---@class uint64_t: ffi.cdata*, integer
 ---@operator add(int64_t|number|uint64_t): uint64_t
 ---@operator sub(int64_t|number|uint64_t): uint64_t
 ---@operator mul(int64_t|number|uint64_t): uint64_t
@@ -86,7 +86,6 @@ function dostring(lua_chunk_string, ...) end
 ---@operator unm: uint64_t
 ---@operator mod(int64_t|number|uint64_t): uint64_t
 ---@operator pow(int64_t|number|uint64_t): uint64_t
-
 
 ---Returns path of the library
 ---@param name string
