@@ -9,7 +9,7 @@ box = {}
 ---@return boolean is_in_txn
 function box.is_in_txn() end
 
----@param box_cfg BoxCfg
+---@param box_cfg? BoxCfg
 ---@return nil
 function box.cfg(box_cfg) end
 
@@ -84,7 +84,22 @@ function box.on_commit(trigger_func, old_trigger_func) end
 ---@alias boxIterator boxTableIterator
 
 ---@class boxTableIterator
----@field iterator "GE"|"GT"|"LT"|"LE"|"EQ"|"REQ"|"BITS_ALL_NOT_SET"|"BITS_ALL_SET"|"BITS_ANY_SET"|"OVERLAPS"|"NEIGHBOR"|"ALL"|boxIndexIterator
+---@field iterator boxIndexStringIterator|boxIndexIterator
+---@field after? box.tuple|tuple_type[]|string position in index (starting from Tarantool ≥ 2.11)
+
+---@alias boxIndexStringIterator
+---| "EQ"
+---| "REQ"
+---| "ALL"
+---| "LT"
+---| "LE"
+---| "GE"
+---| "GT"
+---| "BITS_ALL_NOT_SET"
+---| "BITS_ALL_SET"
+---| "BITS_ANY_SET"
+---| "OVERLAPS"
+---| "NEIGHBOR"
 
 ---@enum boxIndexIterator
 box.index = {
@@ -113,15 +128,21 @@ function box.once(key, fnc, ...) end
 function box.error() end
 
 ---Throw an error. When called with a Lua-table argument, the code and reason have any user-desired values. The result will be those values.
----@param err { reason: string, code: number? } reason is description of an error, defined by user; code is numeric code for this error, defined by user
+---@param err { reason: string, code: integer? } reason is description of an error, defined by user; code is numeric code for this error, defined by user
 ---@return BoxErrorObject
 function box.error(err) end
 
+---Throw an error. Raise the error defined by the specified type and description.
+---@param type string an error type
+---@param reason string an error description
+---@param ... any description arguments
+---@return BoxErrorObject
+function box.error(type, reason, ...) end
+
 ---Throw an error. This method emulates a request error, with text based on one of the pre-defined Tarantool errors defined in the file errcode.h in the source tree.
----@param code number number of a pre-defined error
----@param errtext string part of the message which will accompany the error
+---@param code integer number of a pre-defined error
 ---@param ... string part of the message which will accompany the error
-function box.error(code, errtext, ...) end
+function box.error(code, ...) end
 
 ---@class BoxErrorObject: ffi.cdata*
 ---@field type string (usually ClientError)
@@ -155,11 +176,42 @@ function box_error_object:raise() end
 function box.error.new(code, errtxt, ...) end
 
 ---Instances new BoxError
----@param err { reason: string, code: number?, type: string? } custom error
+---@param err { reason: string, code: integer?, type: string? } custom error
 ---@return BoxErrorObject
 function box.error.new(err) end
 
 ---@return BoxErrorObject
 function box.error.last() end
+
+---@class BoxStatDefault
+---@field total number
+---@field rps number
+
+---@class BoxStatDefaultWithCurrent:BoxStatDefault
+---@field current number
+
+---@class BoxStatNet
+---@field SENT BoxStatDefault sent bytes to iproto
+---@field RECEIVED BoxStatDefault received bytes from iproto
+---@field CONNECTIONS BoxStatDefaultWithCurrent iproto connections statistics
+---@field REQUESTS BoxStatDefaultWithCurrent iproto requests statistics
+
+---@class BoxStat
+---@field reset fun() # resets current statistics
+---@field net fun(): BoxStatNet
+---@overload fun(): BoxStatInfo
+box.stat = {}
+
+---@class BoxStatInfo
+---@field INSERT BoxStatDefault
+---@field DELETE BoxStatDefault
+---@field SELECT BoxStatDefault
+---@field REPLACE BoxStatDefault
+---@field UPDATE BoxStatDefault
+---@field UPSERT BoxStatDefault
+---@field CALL BoxStatDefault
+---@field EVAL BoxStatDefault
+---@field AUTH BoxStatDefault
+---@field ERROR BoxStatDefault
 
 return box

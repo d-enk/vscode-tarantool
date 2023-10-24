@@ -40,7 +40,7 @@ function box.tuple:findall(field_number_or_search_value, search_value) end
 ---@return number field_number, any value
 function box.tuple:next(pos) end
 
----@return fun() ctx, any tuple_value, nil
+---@return Iterator, box.tuple
 function box.tuple:pairs() end
 
 ---If t is a tuple instance, t:totable() will return all fields, t:totable(1) will return all fields starting with field number 1, t:totable(1,5) will return all fields between field number 1 and field number 5.
