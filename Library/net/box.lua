@@ -2,14 +2,15 @@
 
 -- luacheck:ignore
 ---@class net.box
+---@field self NetBoxConnection
 local m = {}
 
 ---@class NetBoxConnectOptions
----@field public wait_connected boolean|number
----@field public reconnect_after number
----@field public user string
----@field public password string
----@field public connect_timeout number
+---@field public wait_connected? boolean|number
+---@field public reconnect_after? number
+---@field public user? string
+---@field public password? string
+---@field public connect_timeout? number
 
 ---@class NetBoxConnection
 ---@field public host string
@@ -40,30 +41,29 @@ function fut:wait_result(timeout) end
 function fut:discard() end
 
 ---@class NetBoxRequestOptions
----@field public is_async boolean
----@field public timeout number
+---@field public is_async? boolean
+---@field public timeout? number
 
 ---@class NetBoxCallOptions
----@field public timeout number Timeout of Call
----@field public is_async boolean makes request asynchronous
----@field public return_raw boolean returns raw msgpack (since version 2.10.0)
----@field public on_push fun(ctx: any?, msg: any) callback for each inbound message
----@field public on_push_ctx any ctx for on_push callback
+---@field public timeout? number Timeout of Call
+---@field public is_async? boolean makes request asynchronous
+---@field public return_raw? boolean returns raw msgpack (since version 2.10.0)
+---@field public on_push? fun(ctx: any?, msg: any) callback for each inbound message
+---@field public on_push_ctx? any ctx for on_push callback
 
 ---@async
 ---@param func string
 ---@param args? any[]
 ---@param opts? NetBoxCallOptions
----@return table
+---@return ...
 function conn:call(func, args, opts) end
 
 ---@async
 ---@param expression string
----@param args any[]
----@param opts NetBoxCallOptions
----@return table
+---@param args? any[]
+---@param opts? NetBoxCallOptions
+---@return ...
 function conn:eval(expression, args, opts) end
-
 
 ---@async
 ---@return boolean
@@ -79,7 +79,7 @@ function conn:on_disconnect(new_callback, old_callback) end
 
 ---Wait for connection to be active or closed.
 ---@async
----@param wait_timeout number
+---@param wait_timeout? number
 ---@return boolean is_connected true when connected, false on failure.
 function conn:wait_connected(wait_timeout) end
 
@@ -104,7 +104,7 @@ function m.connect(endpoint, options) end
 ---Creates connection to Tarantool
 ---@async
 ---@param endpoint string
----@param options NetBoxConnectOptions
+---@param options? NetBoxConnectOptions
 ---@return NetBoxConnection
 function m.new(endpoint, options) end
 
