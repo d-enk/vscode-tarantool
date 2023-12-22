@@ -39,6 +39,7 @@ function buffer_object:pos() end
 
 ---Read `size` bytes from buffer.
 ---@param size integer bytes to read
+---@return ffi.cdata* rpos
 function buffer_object:read(size) end
 
 ---Clear the memory slots allocated by buffer_object.
@@ -54,6 +55,7 @@ function buffer_object:reset() end
 ---Check if there is enough memory to write `size` bytes after `wpos`.
 ---If not, `epos` shifts until `size` bytes will be available.
 ---@param size integer
+---@return ffi.cdata* wpos
 function buffer_object:reserve(size) end
 
 ---Return a range, available for reading data.
