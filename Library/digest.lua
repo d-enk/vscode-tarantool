@@ -33,7 +33,6 @@ digest.aes256cbc = {}
 function digest.aes256cbc.encrypt(string, key, iv) end
 function digest.aes256cbc.decrypt(string, key, iv) end
 
-
 function digest.urandom(integer) end
 function digest.sha256_hex(string) end
 function digest.sha512(string) end
@@ -59,6 +58,7 @@ function digest.pbkdf2_hex() end
 ---urlsafe – result must not include ‘=’ or line feed, and may contain ‘-‘ or ‘_’ instead of ‘+’ or ‘/’ for positions 62 and 63 in the index table.
 ---@param string_variable string
 ---@param b64opts? { nopad: boolean, nowrap: boolean, urlsafe: boolean }
+---@return string
 function digest.base64_encode(string_variable, b64opts) end
 
 digest.crc32 = {}
@@ -69,6 +69,5 @@ function digest.pbkdf2() end
 function digest.md5_hex(string) end
 function digest.sha224_hex(string) end
 function digest.md5(string) end
-
 
 return digest
